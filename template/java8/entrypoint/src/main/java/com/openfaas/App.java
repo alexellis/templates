@@ -53,15 +53,21 @@ public class App {
                 requestBody = result.toString("UTF-8");
 	        }
             
-            System.out.println(requestBody);
-
-            IResponse res = this.handler.Handle(new Request(requestBody, new java.util.HashMap<String, String>()));
+            // System.out.println(requestBody);
+            IRequest req = new Request(requestBody, new java.util.HashMap<String, String>());
+            IResponse res = this.handler.Handle(req);
             
+            // System.out.println(res.getBody());
+
             String response = res.getBody();
-            t.sendResponseHeaders(200, response.length());
+            byte[] bytesOut = response.getBytes("UTF-8");
+            t.sendResponseHeaders(200, bytesOut.length);
+
             OutputStream os = t.getResponseBody();
-            os.write(response.getBytes());
+            os.write(bytesOut);
             os.close();
+
+            System.out.println("Request / " + Integer.toString(bytesOut.length) +" bytes written.");
         }
     }
 
