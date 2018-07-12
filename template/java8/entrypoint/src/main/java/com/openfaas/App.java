@@ -10,6 +10,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 
+import java.util.Map;
+
 import com.openfaas.model.*;
 
 public class App {
@@ -53,9 +55,9 @@ public class App {
             
             System.out.println(requestBody);
 
-            IResponse res = this.handler.Handle(new Request());
+            IResponse res = this.handler.Handle(new Request(requestBody, new java.util.HashMap<String, String>()));
             
-            String response = "thanks";
+            String response = res.getBody();
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());

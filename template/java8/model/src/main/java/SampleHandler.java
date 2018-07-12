@@ -6,4 +6,3 @@ public class SampleHandler implements IHandler {
         return new Response();
     }
 }
-

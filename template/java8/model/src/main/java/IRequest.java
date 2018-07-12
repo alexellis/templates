@@ -1,6 +1,9 @@
 package com.openfaas.model;
 
-public interface IRequest {
+import java.util.Map;
 
+public interface IRequest {
+    String getBody();
+    Map<String, String> getHeaders();
 }
 
