@@ -25,8 +25,6 @@ ENV upstream_url="http://127.0.0.1:8081"
 ENV mode="http"
 ENV CLASSPATH="/home/app/entrypoint-1.0/lib/*"
 
-# RUN chmod +x ./entry.sh
-# ENV fprocess="sh /home/app/entry.sh"
 ENV fprocess="java com.openfaas.entrypoint.App"
 
 HEALTHCHECK --interval=2s CMD [ -e /tmp/.lock ] || exit 1
