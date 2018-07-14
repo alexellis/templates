@@ -19,5 +19,12 @@ public class Request implements IRequest {
     public Map<String, String> getHeaders() {
         return this.headers;
     }
-  
+
+    public String getHeader(String key) {
+        if(!this.headers.containsKey(key)) {
+            return null;
+        }
+
+        return this.headers.get(key);
+    }
 }

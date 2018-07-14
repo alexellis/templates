@@ -5,5 +5,6 @@ import java.util.Map;
 public interface IRequest {
     String getBody();
     Map<String, String> getHeaders();
+    String getHeader(String key);
 }
 

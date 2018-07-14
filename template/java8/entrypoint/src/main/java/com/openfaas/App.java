@@ -56,7 +56,22 @@ public class App {
 	        }
             
             // System.out.println(requestBody);
-            IRequest req = new Request(requestBody, new java.util.HashMap<String, String>());
+            Headers reqHeaders = t.getRequestHeaders();
+            Map<String, String> reqHeadersMap = new HashMap<String, String>();
+
+            for (Map.Entry<String, java.util.List<String>> header : reqHeaders.entrySet()) {
+                java.util.List<String> headerValues = header.getValue();
+                if(headerValues.size() > 0) {
+                    reqHeadersMap.put(header.getKey(), headerValues.get(0));
+                }
+            }
+
+            // for(Map.Entry<String, String> entry : reqHeadersMap.entrySet()) {
+            //     System.out.println("Req header " + entry.getKey() + " " + entry.getValue());
+            // }
+
+            IRequest req = new Request(requestBody, reqHeadersMap);
+
             IResponse res = this.handler.Handle(req);
 
             String response = res.getBody();
