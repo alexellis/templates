@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Response implements IResponse {
+
     private String body;
     private String contentType;
     private Map<String, String> headers;
@@ -12,6 +13,10 @@ public class Response implements IResponse {
         this.body = "";
         this.contentType = "";
         this.headers = new HashMap<String, String>();
+    }
+
+    public Map<String, String> getHeaders() {
+        return this.headers;
     }
 
     public void setHeader(String key, String value) {

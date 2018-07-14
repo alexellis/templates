@@ -30,4 +30,12 @@ public class ResponseTest {
 
        assertEquals(null, r.getHeader("X-Key"));
     }
+
+    @Test public void testResponseGetSetContentType() {
+       Response r = new Response();
+
+       r.setContentType("application/json");
+
+       assertEquals("application/json", r.getContentType());
+    }
 }

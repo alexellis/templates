@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.net.InetSocketAddress;
 
 import java.util.HashMap;
+import java.util.Map;
+import com.sun.net.httpserver.Headers;
 
 import com.openfaas.model.*;
 
@@ -61,6 +63,17 @@ public class App {
 
             String response = res.getBody();
             byte[] bytesOut = response.getBytes("UTF-8");
+
+            Headers responseHeaders = t.getResponseHeaders();
+            String contentType = res.getContentType();
+            if(contentType.length() > 0) {
+                responseHeaders.set("Content-Type", contentType);
+            }
+
+            for(Map.Entry<String, String> entry : res.getHeaders().entrySet()) {
+                responseHeaders.set(entry.getKey(), entry.getValue());
+            }
+
             t.sendResponseHeaders(200, bytesOut.length);
 
             OutputStream os = t.getResponseBody();
