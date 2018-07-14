@@ -3,11 +3,9 @@ FROM openjdk:8u121-jdk-alpine as builder
 RUN apk --no-cache add curl \
     && echo "Pulling watchdog binary from Github." \
     && curl -sSL https://github.com/openfaas-incubator/of-watchdog/releases/download/0.2.5/of-watchdog > /usr/bin/fwatchdog \
-    && chmod +x /usr/bin/fwatchdog
-
-RUN addgroup -S app && adduser -S -g app app
-
-RUN mkdir -p /opt/ && cd /opt/ \
+    && chmod +x /usr/bin/fwatchdog \
+    && addgroup -S app && adduser -S -g app app \
+    && mkdir -p /opt/ && cd /opt/ \
     && curl -sSfL https://services.gradle.org/distributions/gradle-4.8.1-bin.zip -o gradle-bin.zip \
     && unzip gradle-bin.zip -d /opt/ \
     && rm gradle-bin.zip

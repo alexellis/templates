@@ -10,7 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import com.openfaas.model.*;
 

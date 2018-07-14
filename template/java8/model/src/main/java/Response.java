@@ -1,14 +1,47 @@
 package com.openfaas.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Response implements IResponse {
     private String body;
+    private String contentType;
+    private Map<String, String> headers;
 
     public Response() {
         this.body = "";
+        this.contentType = "";
+        this.headers = new HashMap<String, String>();
     }
 
-    public String setBody(String body) {
-        return this.body = body;
+    public void setHeader(String key, String value) {
+        if(value == null) {
+            if(this.headers.containsKey(key)) {
+                this.headers.remove(key);
+                return;
+            }
+        }
+        this.headers.put(key, value);
+    }
+
+    public String getHeader(String key) {
+        if(!this.headers.containsKey(key)) {
+            return null;
+        }
+
+        return this.headers.get(key);
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getContentType() {
+        return this.contentType;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public String getBody() {

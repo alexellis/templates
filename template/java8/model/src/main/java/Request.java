@@ -3,6 +3,7 @@ package com.openfaas.model;
 import java.util.Map;
 
 public class Request implements IRequest {
+
     private Map<String, String> headers;
     private String body;
 
