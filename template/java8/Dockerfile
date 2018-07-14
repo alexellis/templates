@@ -1,14 +1,13 @@
 FROM openjdk:8u121-jdk-alpine as builder
 
 RUN apk --no-cache add curl \
-    && echo "Pulling watchdog binary from Github." \
-    && curl -sSL https://github.com/openfaas-incubator/of-watchdog/releases/download/0.2.5/of-watchdog > /usr/bin/fwatchdog \
-    && chmod +x /usr/bin/fwatchdog \
     && addgroup -S app && adduser -S -g app app \
     && mkdir -p /opt/ && cd /opt/ \
-    && curl -sSfL https://services.gradle.org/distributions/gradle-4.8.1-bin.zip -o gradle-bin.zip \
+    && echo "Downloading gradle.." \
+    && curl -SfL https://services.gradle.org/distributions/gradle-4.8.1-bin.zip -o gradle-bin.zip \
     && unzip gradle-bin.zip -d /opt/ \
-    && rm gradle-bin.zip
+    && rm gradle-bin.zip \
+    && apk del curl
 
 # Export some environment variables
 ENV GRADLE_HOME=/opt/gradle-4.8.1/
@@ -23,7 +22,17 @@ COPY . /home/app/
 
 RUN gradle build
 
-RUN unzip ./entrypoint/build/distributions/entrypoint-1.0.zip
+FROM openjdk:8u121-jdk-alpine as ship
+RUN apk --no-cache add curl \
+    && echo "Pulling watchdog binary from Github." \
+    && curl -sSL https://github.com/openfaas-incubator/of-watchdog/releases/download/0.2.5/of-watchdog > /usr/bin/fwatchdog \
+    && chmod +x /usr/bin/fwatchdog \
+    && apk del curl
+
+RUN addgroup -S app && adduser -S -g app app
+WORKDIR /home/app
+COPY --from=builder /home/app/entrypoint/build/distributions/entrypoint-1.0.zip ./entrypoint-1.0.zip
+RUN unzip ./entrypoint-1.0.zip
 
 RUN chown -R app /home/app
 USER app

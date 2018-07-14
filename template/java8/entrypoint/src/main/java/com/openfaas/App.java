@@ -58,8 +58,6 @@ public class App {
             // System.out.println(requestBody);
             IRequest req = new Request(requestBody, new java.util.HashMap<String, String>());
             IResponse res = this.handler.Handle(req);
-            
-            // System.out.println(res.getBody());
 
             String response = res.getBody();
             byte[] bytesOut = response.getBytes("UTF-8");
